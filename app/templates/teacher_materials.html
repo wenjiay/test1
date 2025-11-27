@@ -1,0 +1,66 @@
+
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>学生上传资料列表</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h3 class="mb-4">📚 所有学生与教师上传资料</h3>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>文件名</th>
+                <th>上传者ID</th>
+                <th>上传时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for material in materials %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ material.filename }}</td>
+                <td>{{ material.student_id if not material.is_standard else material.teacher_id }}</td>
+                <td>{{ material.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>
+                    {% if material.is_standard %}
+                        <a href="{{ url_for('teacher.view_material_records', material_id=material.id) }}" class="btn btn-sm btn-warning mb-1">
+                            📊 作答记录
+                        </a>
+                        <a href="{{ url_for('teacher.material_stats', material_id=material.id) }}" class="btn btn-sm btn-info">
+                            📈 统计分析
+                        </a>
+                        <a href="{{ url_for('teacher.edit_material', material_id=material.id) }}" class="btn btn-sm btn-outline-secondary">
+                             ✏️ 编辑题库
+                        </a>
+                        <a href="{{ url_for('teacher.material_difficulty', material_id=material.id) }}" class="btn btn-sm btn-outline-danger">
+                               🧪 难度分析
+                        </a>
+                        <a href="{{ url_for('teacher.material_report', material_id=material.id) }}" class="btn btn-sm btn-outline-info">📋 教学报告</a>
+
+
+                    {% else %}
+                        <span class="text-muted">学生上传</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center">暂无上传记录</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('teacher.teacher_home') }}" class="btn btn-secondary mt-3">← 返回教师主页</a>
+</div>
+
+</body>
+</html>

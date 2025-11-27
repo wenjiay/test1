@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>我的上传记录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <h2 class="mb-4">📚 我的上传记录</h2>
+    <a href="{{ url_for('student.upload_material') }}" class="btn btn-secondary mb-3">+ 上传新资料</a>
+
+    {% if materials %}
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>文件名</th>
+                <th>上传时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for m in materials %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ m.filename }}</td>
+                <td>{{ m.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>
+                    <a href="{{ url_for('student.view_material', material_id=m.id) }}" class="btn btn-sm btn-outline-primary">查看题目</a>
+                    {% if m.ai_generated_questions %}
+                        <a href="{{ url_for('student.download_material', material_id=m.id) }}" class="btn btn-sm btn-outline-success ms-1">下载题目</a>
+                        <a href="{{ url_for('student.chat_material', material_id=m.id) }}" class="btn btn-sm btn-outline-info ms-1">🧠 AI 问答</a>
+                        <a href="{{ url_for('student.material_summary', material_id=m.id) }}" class="btn btn-sm btn-outline-warning ms-1">📄 一页纸总结</a>
+
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <div class="alert alert-info">你还没有上传任何资料。</div>
+    {% endif %}
+    <a href="{{ url_for('student.student_home') }}" class="btn btn-secondary">← 返回学生主页</a>
+</div>
+</body>
+</html>

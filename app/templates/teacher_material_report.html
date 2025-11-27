@@ -1,0 +1,60 @@
+<!--<h3 class="text-primary mb-4">📋 教学报告 - {{ material.filename }}</h3>-->
+
+<!--{% if message %}-->
+<!--<div class="alert alert-warning">{{ message }}</div>-->
+<!--{% else %}-->
+<!--<ul class="list-group mb-4">-->
+<!--    <li class="list-group-item">📊 平均得分：<strong>{{ avg_score }}</strong></li>-->
+<!--    <li class="list-group-item">🏆 最高得分题目：{{ best.question[:40] }}...（得分：{{ best.score }}）</li>-->
+<!--    <li class="list-group-item">❗ 最低得分题目：{{ worst.question[:40] }}...（得分：{{ worst.score }}）</li>-->
+<!--</ul>-->
+
+<!--<h5 class="mt-4">🧠 AI 教学建议：</h5>-->
+<!--<div class="alert alert-light border-start border-primary border-4">-->
+<!--    <pre style="white-space: pre-wrap;">{{ ai_feedback }}</pre>-->
+<!--</div>-->
+<!--{% endif %}-->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>教学报告</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="mb-4 text-center">
+        <h3 class="text-primary">📋 教学报告</h3>
+        <p class="text-muted">题库文件：<strong>{{ material.filename }}</strong></p>
+    </div>
+
+    {% if message %}
+        <div class="alert alert-warning text-center">{{ message }}</div>
+    {% else %}
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-dark text-white">
+                📊 基础数据概览
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">📈 平均得分：<strong>{{ avg_score }}</strong></li>
+                <li class="list-group-item">🏆 最高得分题目：<em>{{ best.question[:40] }}...</em>（得分：{{ best.score }}）</li>
+                <li class="list-group-item">❗ 最低得分题目：<em>{{ worst.question[:40] }}...</em>（得分：{{ worst.score }}）</li>
+            </ul>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                🧠 AI 教学建议
+            </div>
+            <div class="card-body">
+                <pre class="mb-0" style="white-space: pre-wrap;">{{ ai_feedback }}</pre>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="mt-4 text-center">
+        <a href="{{ url_for('teacher.view_all_uploads') }}" class="btn btn-secondary">← 返回题库列表</a>
+    </div>
+</div>
+</body>
+</html>
